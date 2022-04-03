@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>game</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
+        integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Gemunu+Libre&display=swap" rel="stylesheet">
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .main {
+            height: 350px;
+            width: 800px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid black;
+            border-radius: 5px;
+            
+        }
+
+
+        .open img {
+            height: 150px;
+            width: 150px;
+            border-radius: 50%;
+        }
+
+        .open {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: 0.9s;
+        }
+        .open.overlay{
+            display: flex;
+            animation: over 1s forwards;
+        }
+        @keyframes over{
+            from{
+                transform: scale(0);
+            }
+            to{
+                transform: scale(1);
+            }
+        }
+
+        .fa-play-circle {
+            font-size: 50px;
+            margin-top: 10px;
+            color: red;
+            cursor: pointer;
+        }
+
+        .title {
+            padding: 10px;
+            color: black;
+            font-family: 'Gemunu Libre', sans-serif;
+        }
+
+        .fa-heart,
+        .fa-heart-broken {
+            color: red;
+            padding: 5px;
+            border-radius: 50%;
+        }
+        
+
+        #redo.overlay{
+            display: flex;
+            animation: over 1s forwards;
+        }
+        #redo {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: 0.9s;
+        }
+
+        .fa-redo {
+
+            font-size: 30px;
+            color:#39F75D;
+            cursor: pointer;
+            padding: 5px;
+            background-color:black;
+            border-radius: 50%;
+
+
+
+        }
+        .img {
+            height: 150px;
+            width: 150px;
+            border-radius: 35%;
+        }
+
+        h4 {
+            padding: 10px;
+            font-size: 24px;
+            color: black;
+            font-family: 'Gemunu Libre', sans-serif;
+
+
+        }
+
+        .in-game {
+            display: none;
+        }
+
+        #trex {
+            height: 100px;
+            width: 100px;
+            background-image: url("img/t-rex.png");
+            background-size: 100px;
+            position: absolute;
+            bottom: 28px;
+            left: 15px;
+            transform: skewX(10deg);
+            z-index: 1;
+        }
+
+        .jump {
+            animation: jump 0.5s linear;
+        }
+
+        @keyframes jump {
+            0% {
+                bottom: 28px;
+            }
+
+            50% {
+                bottom: 180px;
+            }
+
+            100% {
+                bottom: 28px;
+            }
+        }
+
+        #sid {
+            height: 60px;
+            width: 60px;
+            background-image: url("img/Sid.png");
+            background-size: 60px;
+            position: absolute;
+            transform: rotateY(3.142rad);
+            bottom: 28px;
+            right: 5px;
+            animation: run 2.2s infinite linear;
+            z-index: 1;
+        }
+
+        @keyframes run {
+            0% {
+                right: 5px;
+            }
+
+            100% {
+                right: 790px;
+            }
+        }
+
+        #control {
+            height: 38px;
+            width: 60px;
+            background-image: url("img/control.png");
+            background-size: 60px;
+            background-position: cover;
+            position: absolute;
+            bottom: 150px;
+            right: 20px;
+            animation: fly 1s infinite linear;
+        }
+
+        @keyframes fly {
+            0% {
+                bottom: 130px;
+                right: 7px;
+            }
+
+            50% {
+                bottom: 165px;
+                right: 15px;
+            }
+
+            100% {
+                bottom: 130px;
+                right: 7px;
+            }
+        }
+
+       
+
+        #road {
+            height: 1000px;
+            width: 1000px;
+            background-image: url("http://city-speeder.scharvey.com/images/road.png");
+            background-repeat: repeat;
+            position: absolute;
+            left: 0;
+            top: -620px;
+            animation: moving 4s linear infinite;
+
+        }
+
+        @keyframes moving {
+            0% {
+                left: -200px;
+            }
+
+            100% {
+                left: 2px;
+            }
+        }
+
+       
+
+        #point {
+            border-bottom: 1px solid white;
+            position: absolute;
+            padding: 5px;
+            right: 20px;
+            top: 10px;
+            font-size: 25px;
+            font-family: 'Gemunu Libre', sans-serif;
+            color: white;
+        }
+
+        .cloud-1,
+        .cloud-2,
+        .cloud-3,
+        .cloud-4 {
+            color: white;
+            font-size: 35px;
+        }
+
+        .cloud-2 {
+            position: absolute;
+            right: 15px;
+            bottom: 10px;
+        }
+
+        #cloud {
+            position: absolute;
+            top: 70px;
+            right: 0px;
+            animation: move 4s linear infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes move {
+            0% {
+                right: 0;
+            }
+
+            100% {
+                right: 900px;
+            }
+        }
+
+        .cloud-3,
+        .cloud-4 {
+            position: absolute;
+            top: 20px;
+            left: 190px;
+        }
+
+        .cloud-4 {
+            position: absolute;
+            top: 50px;
+            left: 150px;
+        } 
+            
+        
+    </style>
+</head>
+
+<body>
+    <div class="main" id="main-cont">
+        <div class="open overlay" id="open">
+            <img src="https://c4.wallpaperflare.com/wallpaper/804/48/28/toy-story-rex-toy-story-wallpaper-preview.jpg">
+            <h3 class="title"><i class="fa fa-heart"></i> " டைனோசோரின் காதல் " <i class="fa fa-heart-broken"></i></h3>
+            <span id="play"> <i class="fa fa-play-circle"></i></span>
+        </div>
+        <div id="redo"><img class="img"
+                src="https://mlpnk72yciwc.i.optimole.com/cqhiHLc.WqA8~2eefa/w:350/h:350/q:75/rt:fill/g:ce/https://bleedingcool.com/wp-content/uploads/2021/01/139276353_265832271569062_1423808313816900871_o-350x350.jpg">
+            <h4><i class="fa fa-heart-broken"></i> You caught by Sid <i class="fa fa-heart-broken"></i></h4>
+            <i class="fa fa-redo"></i>
+        </div>
+        <div class="in-game" id="game">
+            <div id="trex"></div>
+            <div id="sid"></div>
+            <div id="control"></div>
+            <div id="point">0</div>
+            <div id="cloud"><i class="fas fa-cloud cloud-1"></i><i class="fas fa-cloud cloud-2"></i><i
+                    class="fa fa-cloud cloud-3"></i>
+                <i class="fas fa-cloud cloud-4"></i>
+            </div>
+            <div id="road"></div>
+        </div>
+    </div>
+    <div class="audio">
+        <audio id="bg" src="music/bgmusic.mp3"></audio>
+        <audio id="gameover" src="music/gameover.mp3"></audio>
+    </div>
+    <script>
+        document.onload = (function () {
+            let isAlive=false;
+            console.log("app started");
+            let count = 0;
+            var gameOver = document.getElementById("gameover");
+            var bm = document.getElementById("bg");
+            let rex = document.getElementById("trex");
+            let sid = document.getElementById("sid");
+
+            document.getElementById("play").addEventListener("click", function () {
+                document.getElementById('main-cont').style.border='none';
+                document.getElementById('main-cont').style.backgroundImage='url("http://city-speeder.scharvey.com/images/sky.png")';
+                bm.play();
+                bm.loop = true;
+                count = 0;
+                document.getElementById("point").innerHTML = count + "m";
+                document.getElementById('open').style.display = "none";
+                document.getElementById("game").style.display = "block";
+                document.getElementById("point").style.display = "block";
+
+            });
+            function jump() {
+                if (rex.classList != "jump") {
+                    rex.classList.add("jump");
+                    setTimeout(() => {
+                        rex.classList.remove("jump");
+                    }, 400);
+                }
+            }
+            document.addEventListener("keypress", function (event) {
+                if (event.keyCode === 32 || event.keyCode === 13) {
+                    jump();
+                }
+            })
+             isAlive = setInterval(() => {
+               isAlive=true;
+                let trexBottom = parseInt(window.getComputedStyle(rex).getPropertyValue("bottom"));
+                let sidRight = parseInt(window.getComputedStyle(sid).getPropertyValue('right'));
+                if (sidRight > 690 && sidRight < 740 && trexBottom <= 90) {
+                    isAlive = false;
+                    rex.style.animationPlayState = "paused";
+                    sid.style.animationPlayState = "paused";
+                    document.getElementById("control").style.animationPlayState = "paused";
+                    document.getElementById("cloud").style.animationPlayState = "paused";
+                    document.getElementById("road").style.animationPlayState = "paused";
+                    bm.pause();
+                    gameOver.play();
+                    setTimeout(() => {
+                        gameOver.pause();
+                        document.getElementById("game").style.display = "none";
+                        document.getElementById("redo").classList.add('overlay');
+                        document.getElementById('main-cont').style.backgroundImage="none";
+                        document.getElementById('main-cont').style.border='2px solid ';
+                        document.getElementById('main-cont').style.background="white";
+                        document.getElementById("point").style.display = "none";
+
+                    }, 7000);
+
+                }
+
+            }, 10);
+            let point = setInterval(() => {
+                if (isAlive == true) {
+                    count++;
+                    document.getElementById("point").innerHTML = count + "m";
+                }
+            }, 500);
+           
+            let faster = setTimeout(() => {
+                 sid.style.animation = "run 1.5s infinite linear";
+                document.getElementById("cloud").style.animation = "move 2.5s infinite linear ";
+                document.getElementById("road").style.animation = "moving 2.5s infinite linear ";
+                point = setInterval(() => {
+                    if (isAlive == true) {
+                        count++;
+                        document.getElementById("point").innerHTML = count + "m";
+                    }
+                }, 200);
+                
+            }, 33000);
+            setTimeout(() => {
+                sid.style.animation = "run 1.2s infinite linear ";
+                document.getElementById("cloud").style.animation = "move 1.9s infinite linear ";
+                document.getElementById("road").style.animation = "moving 1.9s infinite linear ";
+                point = setInterval(() => {
+                    if (isAlive == true) {
+                        count++;
+                        document.getElementById("point").innerHTML = count + "m";
+                    }
+                }, 150);
+            }, 90000);
+
+
+            document.getElementById('redo').addEventListener("click", function () {
+                window.location.reload();
+            });
+
+        })();
+
+
+
+    </script>
+</body>
+
+</html>
